@@ -1,0 +1,17 @@
+# Пример конфигурации remote state
+# Скопируй в environments/dev/backend.tf и environments/prod/backend.tf
+# и заполни своими значениями
+
+terraform {
+  backend "s3" {
+    bucket         = "my-company-terraform-state"
+    key            = "mid-devops/dev/terraform.tfstate"   # для prod поменяй путь
+    region         = "eu-central-1"
+    dynamodb_table = "terraform-state-locks"
+    encrypt        = true
+  }
+}
+
+# Предварительно нужно создать:
+# 1. S3 bucket с versioning и encryption
+# 2. DynamoDB table с partition key = LockID (String)
